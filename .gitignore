@@ -1,1 +1,5 @@
 ./.vagrant/*
+*.log
+*.rb
+*.sol
+.vagrant/
