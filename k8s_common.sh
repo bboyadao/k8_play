@@ -32,7 +32,7 @@ net.ipv4.ip_forward                 = 1
 EOF
 sysctl --system >/dev/null 2>&1
 
-echo "[TASK 5] Install containerd runtime"
+echo "[COMMON TASK 5] Install containerd runtime"
 yum install -y -q yum-utils wget iproute-tc
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >/dev/null 2>&1
 
@@ -53,13 +53,12 @@ repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
         https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
-# curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - >/dev/null 2>&1
-# apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main" >/dev/null 2>&1
 
 echo "[COMMON TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
 yum install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
 systemctl enable kubelet.service --now
-echo "[TASK 8] Enable ssh password authentication"
+
+echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
@@ -70,7 +69,7 @@ echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[COMMON TASK 10] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
-172.16.16.100  master.example.com     master
-172.16.16.101  worker1.example.com    worker1
-172.16.16.102  worker2.example.com    worker2
+192.168.1.100  master.example.com     master
+192.168.1.201  worker1.example.com    worker1
+192.168.1.102  worker2.example.com    worker2
 EOF

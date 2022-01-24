@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
     # node.vm.box_version       = "3.3.0"
     node.vm.hostname          = "master.example.com"
 
-    node.vm.network "public_network", ip: "172.16.16.100",  bridge: "enp6s0"
+    node.vm.network "public_network", ip: "192.168.1.100",  bridge: "enp6s0"
     node.vm.provider :virtualbox do |v|
       v.name    = "master"
       v.memory  = 2048
@@ -36,7 +36,7 @@ Vagrant.configure(2) do |config|
       # node.vm.box_version       = "3.3.0"
       node.vm.hostname          = "worker#{i}.example.com"
 
-      node.vm.network "public_network", ip: "172.16.16.10#{i}", bridge: "enp6s0"
+      node.vm.network "public_network", ip: "192.168.1.20#{i}", bridge: "enp6s0"
 
       node.vm.provider :virtualbox do |v|
         v.name    = "worker#{i}"
