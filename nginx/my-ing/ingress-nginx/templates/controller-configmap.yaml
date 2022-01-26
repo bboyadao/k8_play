@@ -1,0 +1,20 @@
+---
+# Source: ingress-nginx/templates/controller-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    helm.sh/chart: ingress-nginx-4.0.16
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: my-ing
+    app.kubernetes.io/version: "1.1.1"
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  name: my-ing-ingress-nginx-controller
+  namespace: ingress
+data:
+  allow-snippet-annotations: "true"
+  compute-full-forwarded-for: "true"
+  proxy-body-size: "0"
+  use-forwarded-headers: "true"
