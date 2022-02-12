@@ -61,7 +61,8 @@ EOF
 echo "[COMMON TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
 yum install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
 systemctl enable kubelet.service --now
-
+DROPLET_IP_ADDRESS=$(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+echo '''echo 'Environment="KUBELET_EXTRA_ARGS=--node-ip=${DROPLET_IP_ADDRESS}" '''' >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
@@ -75,5 +76,8 @@ echo "[COMMON TASK 10] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
 192.168.1.100  master.example.com     master
 192.168.1.201  worker1.example.com    worker1
-192.168.1.102  worker2.example.com    worker2
+192.168.1.202  worker2.example.com    worker2
+192.168.1.203  worker3.example.com    worker3
+192.168.1.204  worker4.example.com    worker4
+192.168.1.205  worker5.example.com    worker5
 EOF

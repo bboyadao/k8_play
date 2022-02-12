@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: chuthe-ns
+  name: nginx-ingress
+spec:
+  rules:
+  - host: api.chuthe.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: chuthe-api
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  - host: chuthe.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: chuthe-frontend
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

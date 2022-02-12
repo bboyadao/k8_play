@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: chuthe-ns
+  name: chuthe-dep
+  labels:
+    app: chuthe-dep
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: chuthe-app
+  template:
+    metadata:
+      labels:
+        app: chuthe-app
+    spec:
+      containers:
+      - name: chuthe
+        image: docker.io/0x7c/chuthe:latest
+        imagePullPolicy: Always
+        # envFrom:
+        #   - secretRef:
+        #       name: django-k8s-web-prod-env
+        # env:
+        #   - name: PORT
+        #     value: "8002"
+        ports:
+        - containerPort: 8000
+      # imagePullSecrets:
+      #   - name: 
