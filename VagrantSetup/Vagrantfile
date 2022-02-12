@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "k8s_common.sh"
   config.vm.provision :reload
-  WorkerNodes = 2
+  WorkerNodes = 5
 
   # Kubernetes Master Server
   config.vm.define "master" do |node|
