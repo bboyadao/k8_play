@@ -2,27 +2,30 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  namespace: ingress
   name: nginx-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
 spec:
   rules:
   - host: api.chuthe.com
     http:
       paths:
-      - backend:
-          service:
-            name: chuthe-api
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
-  - host: chuthe.com
-    http:
-      paths:
-      - backend:
-          service:
-            name: chuthe-frontend
-            port:
-              number: 80
-        path: /
-        pathType: Prefix
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: chuthe-api-svc
+              port:
+                number: 80
+  # - host: chuthe.com
+  #   http:
+  #     paths:
+  #       - path: "/"
+  #         pathType: Prefix
+  #         backend:
+  #           service:
+  #             name: chuthe-frontend
+  #             port:
+  #               number: 80

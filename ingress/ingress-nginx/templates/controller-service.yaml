@@ -7,13 +7,13 @@ metadata:
   labels:
     helm.sh/chart: ingress-nginx-4.0.16
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: ingress
     app.kubernetes.io/version: "1.1.1"
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: release-name-ingress-nginx-controller
-  namespace: ingress
+  name: ingress-ingress-nginx-controller
+  namespace: default
 spec:
   type: LoadBalancer
   ipFamilyPolicy: SingleStack
@@ -32,5 +32,5 @@ spec:
       appProtocol: https
   selector:
     app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/instance: ingress
     app.kubernetes.io/component: controller

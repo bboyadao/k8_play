@@ -1,19 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: chuthe-ns
-  name: chuthe-dep
+  name: chuthe-api
   labels:
-    app: chuthe-dep
+    app: chuthe-api
 spec:
-  replicas: 2
+  replicas: 4
   selector:
     matchLabels:
-      app: chuthe-app
+      app: chuthe-api
   template:
     metadata:
       labels:
-        app: chuthe-app
+        app: chuthe-api
     spec:
       containers:
       - name: chuthe
