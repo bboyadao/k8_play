@@ -26,6 +26,6 @@ spec:
         #   - name: PORT
         #     value: "8002"
         ports:
-        - containerPort: 8000
+        - containerPort: 80
       # imagePullSecrets:
       #   - name: 

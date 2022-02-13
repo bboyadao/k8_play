@@ -5,7 +5,7 @@ metadata:
   namespace: chuthe-ns
   name: chuthe-api
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: http
       protocol: TCP
