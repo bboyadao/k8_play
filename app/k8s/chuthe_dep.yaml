@@ -5,7 +5,7 @@ metadata:
   labels:
     app: chuthe-api
 spec:
-  replicas: 4
+  replicas: 2
   selector:
     matchLabels:
       app: chuthe-api
@@ -14,10 +14,18 @@ spec:
       labels:
         app: chuthe-api
     spec:
+      volumes:
+        - name: storage-pvc
+          persistentVolumeClaim:
+            claimName: pvc-nfs-pv1
       containers:
       - name: chuthe
         image: docker.io/0x7c/chuthe:latest
         imagePullPolicy: Always
+        volumeMounts:
+        - name: storage-pvc
+          mountPath: /app/storage
+
         # envFrom:
         #   - secretRef:
         #       name: django-k8s-web-prod-env
