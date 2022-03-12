@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-oh+rxbl%lppu5d8vhn)3$=m^ee2x2c_%^la-!*8lf=!1*t=^_z
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -124,3 +122,4 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

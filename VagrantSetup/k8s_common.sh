@@ -20,14 +20,6 @@ echo "[COMMON TASK 3] Disable SELinux"
 setenforce 0
 sed -i --follow-symlinks 's/^SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
 
-echo "[COMMON TASK 4] Enable containerd"
-cat >>/etc/modules-load.d/containerd.conf<<EOF
-overlay
-br_netfilter
-EOF
-modprobe overlay
-modprobe br_netfilter
-
 echo "[COMMON TASK 5] Add Kernel settings"
 cat >>/etc/sysctl.d/kubernetes.conf<<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -39,10 +31,19 @@ sysctl --system >/dev/null 2>&1
 echo "[COMMON TASK 5] Install containerd runtime"
 yum install -y -q yum-utils wget iproute-tc
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >/dev/null 2>&1
-
 yum install -y -q containerd.io
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
+
+echo "[COMMON TASK 4] Enable containerd"
+cat >>/etc/modules-load.d/containerd.conf<<EOF
+overlay
+br_netfilter
+EOF
+modprobe overlay
+modprobe br_netfilter
+
+
 systemctl restart containerd >/dev/null 2>&1
 systemctl enable containerd >/dev/null 2>&1
 
@@ -61,15 +62,17 @@ EOF
 echo "[COMMON TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
 yum install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
 systemctl enable kubelet.service --now
-DROPLET_IP_ADDRESS=$(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+DROPLET_IP_ADDRESS=$(ip -f inet addr show eth0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
 echo '''echo 'Environment="KUBELET_EXTRA_ARGS=--node-ip=${DROPLET_IP_ADDRESS}" '''' >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+sudo mount -t nfs 192.168.1.5:/srv/nfs/k8_play /mnt
+sudo umount /mnt
 echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
 
 echo "[COMMON TASK 9] Set root password"
-echo -e "kubeadmin\nkubeadmin" | passwd root >/dev/null 2>&1
+echo -e "admin123\nadmin123" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[COMMON TASK 10] Update /etc/hosts file"

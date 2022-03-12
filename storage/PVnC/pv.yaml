@@ -7,11 +7,28 @@ metadata:
 spec:
   storageClassName: managed-nfs-storage
   capacity:
-    # storage: 1Gi
-    storage: 500Mi
+    storage: 15Gi
+    # storage: 500Mi
   accessModes:
     - ReadWriteMany
   nfs:
     server: 192.168.1.5
     path: "/srv/nfs/k8s_play"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: db-storage
+  labels:
+    type: local
+spec:
+  storageClassName: nfs-storage-class
+  capacity:
+    storage: 15Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/db"
+
 

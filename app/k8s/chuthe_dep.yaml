@@ -5,7 +5,7 @@ metadata:
   labels:
     app: chuthe-api
 spec:
-  replicas: 2
+  replicas: 10
   selector:
     matchLabels:
       app: chuthe-api
@@ -34,5 +34,3 @@ spec:
         #     value: "8002"
         ports:
         - containerPort: 80
-      # imagePullSecrets:
-      #   - name: 

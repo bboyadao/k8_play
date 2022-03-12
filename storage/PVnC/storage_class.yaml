@@ -2,6 +2,17 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: managed-nfs-storage
+parameters:
+  archiveOnDelete: "false"
+provisioner: kubernetes.io/gce-pd
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storage-class
 provisioner: example.com/nfs
 parameters:
   archiveOnDelete: "false"
+
