@@ -1,34 +1,70 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-nfs-pv1
+  name: pv-nfs-pv0
   labels:
     type: local
 spec:
-  storageClassName: managed-nfs-storage
+  storageClassName: standard
   capacity:
     storage: 15Gi
     # storage: 500Mi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   nfs:
     server: 192.168.1.5
-    path: "/srv/nfs/k8s_play"
+    path: "/srv/nfs/pv0"
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: db-storage
+  name: pv-nfs-pv1
   labels:
     type: local
 spec:
-  storageClassName: nfs-storage-class
+  storageClassName: standard
   capacity:
     storage: 15Gi
+    # storage: 500Mi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   nfs:
     server: 192.168.1.5
-    path: "/srv/nfs/db"
+    path: "/srv/nfs/pv1"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-pv2
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 15Gi
+    # storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/pv2"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs-pv3
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 15Gi
+    # storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/pv3"
+---
 
 

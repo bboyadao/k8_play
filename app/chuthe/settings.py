@@ -74,10 +74,20 @@ WSGI_APPLICATION = 'chuthe.wsgi.application'
 
 STORAGE_DIR = "storage"
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, STORAGE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, STORAGE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_test',
+        'USER': 'postgres',
+        'PASSWORD': 'admin123',
+        'HOST': 'postgresql-postgresql-ha-pgpool.default.svc.cluster.local',
+        'PORT': 5432,
     }
 }
 

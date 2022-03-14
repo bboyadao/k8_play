@@ -63,13 +63,24 @@ echo "[COMMON TASK 7] Install Kubernetes components (kubeadm, kubelet and kubect
 yum install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
 systemctl enable kubelet.service --now
 DROPLET_IP_ADDRESS=$(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-echo '''echo 'Environment="KUBELET_EXTRA_ARGS=--node-ip=${DROPLET_IP_ADDRESS}" '''' >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+echo "Environment=\"KUBELET_EXTRA_ARGS=--node-ip=$DROPLET_IP_ADDRESS\"" >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 if [ "$HOSTNAME" = master ]; then
     printf '%s\n' "on the right host"
 else
     printf '%s\n' "uh-oh, not on foo"
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/k8s_play /mnt && sudo umount /mnt
+    mkdir -p /mnt/pv0
+    mkdir -p /mnt/pv1
+    mkdir -p /mnt/pv2
+    mkdir -p /mnt/pv3
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv0 /mnt/pv0
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv1 /mnt/pv1
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv2 /mnt/pv2
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv3 /mnt/pv3
+    sudo umount /mnt/pv0
+    sudo umount /mnt/pv1
+    sudo umount /mnt/pv2
+    sudo umount /mnt/pv3
 fi
 echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
@@ -88,4 +99,15 @@ cat >>/etc/hosts<<EOF
 192.168.1.203  worker3.example.com    worker3
 192.168.1.204  worker4.example.com    worker4
 192.168.1.205  worker5.example.com    worker5
+192.168.1.206  worker6.example.com    worker6
+192.168.1.207  worker7.example.com    worker7
+192.168.1.208  worker8.example.com    worker8
+192.168.1.209  worker9.example.com    worker9
+192.168.1.210  worker5.example.com    worker10
+
+192.168.2.201  database1.example.com    database1
+192.168.2.202  database2.example.com    database2
+192.168.2.203  database3.example.com    database3
+192.168.2.204  database4.example.com    database4
+192.168.2.205  database5.example.com    database5
 EOF
