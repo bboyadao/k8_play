@@ -7,5 +7,5 @@ yum install -qq -y sshpass
 echo "[TASK 1] JOIN NODE"
 # sshpass -p "kubeadmin" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh 2>/dev/null
 # bash /joincluster.sh >/dev/null 2>&1
-sshpass -p "kubeadmin" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh
+sshpass -p "admin123" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh
 bash /joincluster.sh
