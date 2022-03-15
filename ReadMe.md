@@ -32,8 +32,6 @@ helm install postgresql bitnami/postgresql-ha\
 /opt/bitnami/scripts/postgresql-repmgr/entrypoint.sh repmgr -f /opt/bitnami/repmgr/conf/repmgr.conf cluster show --compac
 /opt/bitnami/scripts/postgresql-repmgr/entrypoint.sh repmgr -f /opt/bitnami/repmgr/conf/repmgr.conf standby promote
 
-ALTER ROLE myprojectuser SET client_encoding TO 'utf8';
-ALTER ROLE myprojectuser SET default_transaction_isolation TO 'read committed';
 CREATE DATABASE django_test;
 CREATE USER postgres WITH PASSWORD 'admin123';
 ALTER ROLE postgres SET timezone TO 'UTC';

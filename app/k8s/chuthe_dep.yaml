@@ -14,17 +14,17 @@ spec:
       labels:
         app: chuthe-api
     spec:
-      volumes:
-        - name: storage-pvc
-          persistentVolumeClaim:
-            claimName: pvc-nfs-pv1
+      # volumes:
+        # - name: storage-pvc
+        #   persistentVolumeClaim:
+        #     claimName: pvc-nfs-pv1
       containers:
       - name: chuthe
         image: docker.io/0x7c/chuthe:latest
         imagePullPolicy: Always
-        volumeMounts:
-        - name: storage-pvc
-          mountPath: /app/storage
+        # volumeMounts:
+        # - name: storage-pvc
+        #   mountPath: /app/storage
 
         # envFrom:
         #   - secretRef:
