@@ -73,14 +73,17 @@ else
     mkdir -p /mnt/pv1
     mkdir -p /mnt/pv2
     mkdir -p /mnt/pv3
+    mkdir -p /mnt/rabbitmq
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv0 /mnt/pv0
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv1 /mnt/pv1
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv2 /mnt/pv2
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv3 /mnt/pv3
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/rabbitmq /mnt/rabbitmq
     sudo umount /mnt/pv0
     sudo umount /mnt/pv1
     sudo umount /mnt/pv2
     sudo umount /mnt/pv3
+    sudo umount /mnt/rabbitmq
 fi
 echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config

@@ -4,7 +4,7 @@ kubeadm config images pull >/dev/null 2>&1
 
 echo "[MASTER TASK 2] Initialize Kubernetes Cluster"
 # kubeadm init --apiserver-advertise-address=192.168.0.100 --pod-network-cidr=192.168.56.0/16 >> $HOME/kubeinit.log 2>/dev/null
-kubeadm init --apiserver-advertise-address=192.168.1.100 --pod-network-cidr=10.244.0.0/16 >> $HOME/kubeinit.log 2>/dev/null
+kubeadm init --apiserver-advertise-address=192.168.1.100 --pod-network-cidr=10.10.0.0/16 >> $HOME/kubeinit.log 2>/dev/null
 
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
