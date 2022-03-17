@@ -69,22 +69,6 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: static-files
-  labels:
-    type: local
-spec:
-  storageClassName: django-app
-  capacity:
-    storage: 50Mi
-  accessModes:
-    - ReadWriteMany
-  nfs:
-    server: 192.168.1.5
-    path: "/srv/nfs/django-static"
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
   name: rabbitmq
   labels:
     type: local
