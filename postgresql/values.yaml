@@ -375,7 +375,7 @@ postgresql:
   ##
   username: postgres
   password: "admin123"
-  database: ""
+  database: "django_test"
   ## @param postgresql.existingSecret PostgreSQL password using existing secret
   ##
   existingSecret: ""
@@ -635,12 +635,12 @@ pgpool:
   ## e.g:
   ## usernames: 'user01;user02'
   ##
-  usernames: ""
+  usernames: "admin"
   ## @param pgpool.passwords Comma or semicolon separated list of the associated passwords for the users above
   ## e.g:
   ## passwords: 'pass01;pass02'
   ##
-  passwords: ""
+  passwords: "admin123"
   ## @param pgpool.hostAliases Deployment pod host aliases
   ## https://kubernetes.io/docs/concepts/services-networking/add-entries-to-pod-etc-hosts-with-host-aliases/
   ##
