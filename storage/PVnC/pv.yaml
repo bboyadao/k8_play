@@ -89,7 +89,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: standard
+  storageClassName: rabbitmq
   capacity:
     storage: 8Gi
   accessModes:
