@@ -97,6 +97,7 @@ echo "export TERM=xterm" >> /etc/bash.bashrc
 echo "[COMMON TASK 10] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
 192.168.1.100  master.example.com     master
+
 192.168.1.201  worker1.example.com    worker1
 192.168.1.202  worker2.example.com    worker2
 192.168.1.203  worker3.example.com    worker3
@@ -108,9 +109,21 @@ cat >>/etc/hosts<<EOF
 192.168.1.209  worker9.example.com    worker9
 192.168.1.210  worker5.example.com    worker10
 
-192.168.2.201  database1.example.com    database1
-192.168.2.202  database2.example.com    database2
-192.168.2.203  database3.example.com    database3
-192.168.2.204  database4.example.com    database4
-192.168.2.205  database5.example.com    database5
+192.168.1.21  database1.example.com    database1
+192.168.1.22  database2.example.com    database2
+192.168.1.23  database3.example.com    database3
+192.168.1.24  database4.example.com    database4
+192.168.1.25  database5.example.com    database5
+
+192.168.1.41  ingress1.example.com    ingress1
+192.168.1.42  ingress2.example.com    ingress2
+192.168.1.43  ingress3.example.com    ingress3
+
+192.168.1.51  lb1.example.com    lb1
+192.168.1.52  lb2.example.com    lb2
+
+192.168.1.91  mq1.example.com    mq1
+192.168.1.92  mq2.example.com    mq2
+192.168.1.93  mq3.example.com    mq3
+
 EOF
