@@ -18,6 +18,18 @@ spec:
         # - name: storage-pvc
         #   persistentVolumeClaim:
         #     claimName: pvc-nfs-pv1
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - worker1.example.com
+                - worker2.example.com
+                - worker3.example.com
+                - worker4.example.com
       containers:
       - name: chuthe
         image: docker.io/0x7c/chuthe:latest
