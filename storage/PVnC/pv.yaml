@@ -82,5 +82,21 @@ spec:
     server: 192.168.1.5
     path: "/srv/nfs/django-static"
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: rabbitmq
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/rabbitmq"
+---
 
 
