@@ -3,3 +3,4 @@
 *.rb
 *.sol
 .vagrant/
+.idea/
