@@ -8,11 +8,10 @@ metadata:
 spec:
   type: ClusterIP
   # type: ExternalName
-  # externalName: test-service-api.namespace-chuthe-api.svc.cluster.local
   ports:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8000
   selector:
     app: chuthe-api

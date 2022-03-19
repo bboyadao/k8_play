@@ -5,7 +5,7 @@ metadata:
   labels:
     app: chuthe-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: chuthe-api
@@ -14,10 +14,6 @@ spec:
       labels:
         app: chuthe-api
     spec:
-      # volumes:
-        # - name: storage-pvc
-        #   persistentVolumeClaim:
-        #     claimName: pvc-nfs-pv1
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -33,16 +29,21 @@ spec:
       containers:
       - name: chuthe
         image: docker.io/0x7c/chuthe:latest
+        command: ["/bin/sh"]
+        args: ["-c", "daphne chuthe.asgi:application -b 0.0.0.0"]
         imagePullPolicy: Always
-        # volumeMounts:
-        # - name: storage-pvc
-        #   mountPath: /app/storage
-
-        # envFrom:
-        #   - secretRef:
-        #       name: django-k8s-web-prod-env
-        # env:
-        #   - name: PORT
-        #     value: "8002"
+        env:
+        - name: APP_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_PORT
+        envFrom:
+          - secretRef:
+              name: app-secret
+          - configMapRef:
+              name: app-config
         ports:
-        - containerPort: 80
+        - containerPort: 8000
+        # command: ["pwd"]
+

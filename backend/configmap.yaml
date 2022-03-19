@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_PORT: "8000"
+  CELERY_BROKER_URL: 'redis:'
+  CELERY_RESULT_BACKEND: 'django-db'
+  CELERY_CACHE_BACKEND: 'default'
+  DATABASE_URL: 'postgresql-postgresql-ha-pgpool'
