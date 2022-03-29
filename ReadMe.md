@@ -38,5 +38,15 @@ ALTER ROLE postgres SET timezone TO 'UTC';
 ALTER ROLE postgres SET default_transaction_isolation TO 'read committed';
 ALTER ROLE postgres SET timezone TO 'UTC';
 GRANT ALL PRIVILEGES ON DATABASE django_test TO postgres;
+
+export CHUTHE_ENV="LOCAL"
+
+echo "URL : amqp://127.0.0.1:5672/"
+    kubectl port-forward --namespace default svc/rabbitmq 5672:5672
+
+echo "Username      : user"
+    echo "Password      : $(kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-password}" | base64 --decode -w 0)"
+    echo "ErLang Cookie : $(kubectl get secret --namespace default rabbitmq -o jsonpath="{.data.rabbitmq-erlang-cookie}" | base64 --decode -w 0)"
+
 ```
 
