@@ -1315,20 +1315,20 @@ volumePermissions:
 persistence:
   ## @param persistence.enabled Enable data persistence
   ##
-  enabled: true
+  enabled: false
   ## @param persistence.existingClaim A manually managed Persistent Volume and Claim
   ## If defined, PVC must be created manually before volume will be bound.
   ## All replicas will share this PVC, using existingClaim with replicas > 1 is only useful in very special use cases.
   ## The value is evaluated as a template.
   ##
-  existingClaim: ""
+  existingClaim: postgres0
   ## @param persistence.storageClass Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning
   ## If undefined (the default) or set to null, no storageClassName spec is
   ## set, choosing the default provisioner.
   ##
-  storageClass: standard
+  storageClass: postgres
   ## @param persistence.mountPath The path the volume will be mounted at, useful when using different PostgreSQL images.
   ##
   mountPath: /bitnami/postgresql
@@ -1338,7 +1338,7 @@ persistence:
     - ReadWriteOnce
   ## @param persistence.size Persistent Volume Claim size
   ##
-  size: 8Gi
+  size: 500Mi
   ## @param persistence.annotations Persistent Volume Claim annotations
   ##
   annotations: {}
