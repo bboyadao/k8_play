@@ -674,7 +674,7 @@ rbac:
 persistence:
   ## @param persistence.enabled Enable RabbitMQ data persistence using PVC
   ##
-  enabled: true
+  enabled: false
 
   ## @param persistence.storageClass PVC Storage Class for RabbitMQ data volume
   ## If defined, storageClassName: <storageClass>
@@ -683,7 +683,7 @@ persistence:
   ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
   ##   GKE, AWS & OpenStack)
   ##
-  storageClass: "standard"
+  storageClass: rabbitmq
   ## @param persistence.selector Selector to match an existing Persistent Volume
   ## selector:
   ##   matchLabels:
@@ -698,7 +698,7 @@ persistence:
   ## The value is evaluated as a template
   ## So, for example, the name can depend on .Release or .Chart
   ##
-  existingClaim: ""
+  existingClaim: rabbitmq-pvc
   ## @param persistence.mountPath The path the volume will be mounted at
   ## Note: useful when using custom RabbitMQ images
   ##
