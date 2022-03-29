@@ -10,3 +10,17 @@ parameters:
   readOnly: "false"
 allowVolumeExpansion: true
 reclaimPolicy: Delete
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: postgres
+provisioner: example.com/external-nfs
+parameters:
+  archiveOnDelete: "false"
+  server: 192.168.1.5
+  path: /srv/nfs/k8s_play
+  readOnly: "false"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
