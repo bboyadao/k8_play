@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
   DatabaseNodes = 2
   Ingress = 3
   LB = 2
-  MQ = 1
+  MQ = 2
   # Kubernetes Master Server
   config.vm.define "master" do |node|
     node.vm.box               = "centos/8"
@@ -95,8 +95,8 @@ Vagrant.configure(2) do |config|
       node.vm.network "public_network", ip: "192.168.1.9#{i}", bridge: "enp6s0"
       node.vm.provider :virtualbox do |v|
         v.name    = "mq#{i}"
-        v.memory  = 1024
-        v.cpus    = 2
+        v.memory  = 2048
+        v.cpus    = 4
       end
       node.vm.provision "shell", path: "k8s_worker.sh"
     end
