@@ -1,0 +1,124 @@
+# Default values for backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+secrets:
+  app:
+    SECRET_KEY: "#hbssr&_c20e0=2h2rwb6r6ief3@^j&=^9(3&v4i@jhsi=^)%j"
+    DATABASE_NAME: "django_test"
+    DATABASE_URL: "postgresql-postgresql-ha-pgpool"
+    DATABASE_PORT: "5432"
+    DATABASE_USER: "postgres"
+    DATABASE_PASSWORD: "admin123"
+    BROKER_USER: "user"
+    BROKER_PASSWORD: "admin123"
+  cr:
+    .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogIk1IZzNZenBoYm1oaGJtY3hNak09IgoJCX0KCX0KfQ==
+
+configMap:
+  DATABASE_URL: 'postgresql-postgresql-ha-pgpool'
+  BROKER_SCHEMA: "amqp"
+  BROKER_HOST: "rabbitmq"
+  BROKER_PORT: "5672"
+  CHUTHE_ENV: "PROD"
+
+image:
+  repository: docker.io/0x7c/chuthe
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest"
+
+imagePullSecrets:
+  - name: dockercred
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: api.chuthe.com
+      paths:
+        - path: /
+          pathType: Prefix
+          # backend:
+          #   service:
+          #     name: chuthe-api-svc
+          #     port:
+          #       number: 80
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - worker1.example.com
+          - worker2.example.com
+          - worker3.example.com
+          - worker4.example.com

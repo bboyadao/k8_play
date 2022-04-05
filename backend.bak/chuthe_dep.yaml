@@ -29,8 +29,8 @@ spec:
       containers:
       - name: chuthe
         image: docker.io/0x7c/chuthe:latest
-        command: ["/bin/sh"]
-        args: ["-c", "daphne chuthe.asgi:application -b 0.0.0.0"]
+        # command: ["/bin/sh"]
+        # args: ["-c", "daphne chuthe.asgi:application -b 0.0.0.0"]
         imagePullPolicy: Always
         env:
         - name: APP_PORT
@@ -46,4 +46,5 @@ spec:
         ports:
         - containerPort: 8000
         # command: ["pwd"]
-
+      imagePullSecrets:
+      - name: dockercred
