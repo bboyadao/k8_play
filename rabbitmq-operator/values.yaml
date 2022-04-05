@@ -226,6 +226,7 @@ clusterOperator:
   podAnnotations: {}
   ## @param clusterOperator.podAffinityPreset Pod affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
   ## ref: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity
+  #
   ##
   podAffinityPreset: ""
   ## @param clusterOperator.podAntiAffinityPreset Pod anti-affinity preset. Ignored if `affinity` is set. Allowed values: `soft` or `hard`
@@ -262,6 +263,7 @@ clusterOperator:
             operator: In
             values:
             - mq1.example.com
+            - mq2.example.com
   ## @param clusterOperator.nodeSelector Node labels for RabbitMQ Cluster Operator pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
@@ -625,7 +627,16 @@ msgTopologyOperator:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ## NOTE: `podAffinityPreset`, `podAntiAffinityPreset`, and `nodeAffinityPreset` will be ignored when it's set
   ##
-  affinity: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: In
+            values:
+            - mq1.example.com
+            - mq2.example.com
   ## @param msgTopologyOperator.nodeSelector Node labels for RabbitMQ Messaging Topology Operator pods assignment
   ## ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
