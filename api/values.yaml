@@ -1,4 +1,4 @@
-# Default values for backend.
+# Default values for api.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -76,7 +76,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/default-backend: ingress-nginx-controller
+    nginx.ingress.kubernetes.io/default-api: ingress-nginx-controller
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:

@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "backend.name" -}}
+{{- define "api.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "backend.fullname" -}}
+{{- define "api.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "backend.chart" -}}
+{{- define "api.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "backend.labels" -}}
-helm.sh/chart: {{ include "backend.chart" . }}
-{{ include "backend.selectorLabels" . }}
+{{- define "api.labels" -}}
+helm.sh/chart: {{ include "api.chart" . }}
+{{ include "api.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,36 +43,37 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/*
-Selector labels api
+Selector labels beat
 */}}
-{{- define "backend.apiSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "backend.name" . }}-api
-app.kubernetes.io/instance: {{ .Release.Name }}-api
+{{- define "api.selectorLabelsBeat" -}}
+app.kubernetes.io/name: {{ include "api.name" . }}-beat
+app.kubernetes.io/instance: {{ .Release.Name }}-beat
 {{- end }}
 
 {{/*
 Selector labels worker
 */}}
-{{- define "backend.workerSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "backend.name" . }}-worker
+{{- define "api.selectorLabelsWorker" -}}
+app.kubernetes.io/name: {{ include "api.name" . }}-worker
 app.kubernetes.io/instance: {{ .Release.Name }}-worker
 {{- end }}
 
-{{/*
-Selector labels beat
-*/}}
-{{- define "backend.beatSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "backend.name" . }}-beat
-app.kubernetes.io/instance: {{ .Release.Name }}-beat
-{{- end }}
 
+
+{{/*
+Selector labels api
+*/}}
+{{- define "api.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "api.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "backend.serviceAccountName" -}}
+{{- define "api.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "backend.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "api.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

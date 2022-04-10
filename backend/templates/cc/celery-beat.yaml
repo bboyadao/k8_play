@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "backend.fullname" . }}-celery
+  name: {{ include "backend.fullname" . }}
   labels:
     {{- include "backend.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.beat.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "backend.selectorLabels" . | nindent 6 }}
+    {{- include "backend.beatSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -36,22 +36,7 @@ spec:
               name: {{ include "backend.fullname" . }}
           - secretRef:
               name: {{ include "backend.fullname" . }}
-          command: ['/bin/sh', '-c', 'celery -A chuthe worker -l info']
-          # ports:
-          #   - containerPort: 8000
-          #
-          # ports:
-          #   - name: http
-          #     containerPort: 8000
-          #     protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          command: ['/bin/sh', '-c', 'celery -A chuthe beat -l debug']
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
@@ -66,4 +51,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-

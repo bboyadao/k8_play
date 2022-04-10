@@ -816,12 +816,22 @@ pgpool:
   ## @param pgpool.livenessProbe.successThreshold Success threshold for livenessProbe
   ##
   livenessProbe:
-    enabled: true
-    initialDelaySeconds: 30
-    periodSeconds: 10
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 5
+    enabled: false
+  customLivenessProbe:
+    tcpSocket:
+      port: postgresql
+  readinessProbe:
+    enabled: false
+  customReadinessProbe:
+    tcpSocket:
+      port: postgresql
+  # livenessProbe:
+  #   enabled: true
+  #   initialDelaySeconds: 30
+  #   periodSeconds: 10
+  #   timeoutSeconds: 5
+  #   successThreshold: 1
+  #   failureThreshold: 5
   ## Pgpool container's readiness probe
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
   ## @param pgpool.readinessProbe.enabled Enable readinessProbe
@@ -831,13 +841,13 @@ pgpool:
   ## @param pgpool.readinessProbe.failureThreshold Failure threshold for readinessProbe
   ## @param pgpool.readinessProbe.successThreshold Success threshold for readinessProbe
   ##
-  readinessProbe:
-    enabled: true
-    initialDelaySeconds: 5
-    periodSeconds: 5
-    timeoutSeconds: 5
-    successThreshold: 1
-    failureThreshold: 5
+  # readinessProbe:
+  #   enabled: true
+  #   initialDelaySeconds: 5
+  #   periodSeconds: 5
+  #   timeoutSeconds: 5
+  #   successThreshold: 1
+  #   failureThreshold: 5
   ## Pgpool container's startup probe
   ## ref: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
   ## @param pgpool.startupProbe.enabled Enable startupProbe

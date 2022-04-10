@@ -500,6 +500,7 @@ affinity:
           operator: In
           values:
           - mq1.example.com
+          - mq2.example.com
 
 ## @param nodeSelector Node labels for pod assignment. Evaluated as a template
 ## ref: https://kubernetes.io/docs/user-guide/node-selection/
