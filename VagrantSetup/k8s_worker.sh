@@ -1,11 +1,9 @@
-# yum install -qq -y sshpass >/dev/null 2>&1
-yum install -qq -y sshpass
-# wget https://archives.fedoraproject.org/pub/archive/epel/6/x86_64/epel-release-6-8.noarch.rpm . >/dev/null 2>&1
-# rpm -ivh epel-release-6-8.noarch.rpm >/dev/null 2>&1
-# yum --enablerepo=epel -y install sshpass  >/dev/null 2>&1
-# rm epel-release-6-8.noarch.rpm >/dev/null 2>&1
+cd /vagrant/open_sources/
+tar -xvf sshpass-1.08.tar.gz
+cd sshpass-1.08
+./configure
+make && make install
+
 echo "[TASK 1] JOIN NODE"
-# sshpass -p "kubeadmin" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh 2>/dev/null
-# bash /joincluster.sh >/dev/null 2>&1
-sshpass -p "admin123" scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh
+/usr/local/bin/sshpass -p "admin123" scp -o PreferredAuthentications="password" -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no master.example.com:/joincluster.sh /joincluster.sh
 bash /joincluster.sh

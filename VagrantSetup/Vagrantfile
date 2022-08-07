@@ -7,11 +7,11 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "k8s_common.sh"
   # config.vm.provision :reload
-  WorkerNodes = 3
+  WorkerNodes = 2
   DatabaseNodes = 2
-  Ingress = 3
-  LB = 2
-  MQ = 2
+  Ingress = 2
+  LB = 1
+  MQ = 1
   # Kubernetes Master Server
   config.vm.define "master" do |node|
     node.vm.box               = "centos/8"

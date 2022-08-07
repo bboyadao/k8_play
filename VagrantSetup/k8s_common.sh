@@ -1,11 +1,24 @@
 #!/bin/bash
 
+
 echo "[COMMON TASK 0] ADD EPEL"
 # Centos through VM - no URLs in mirrorlist
 # https://stackoverflow.com/questions/70926799/centos-through-vm-no-urls-in-mirrorlist
-sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-*
-sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
-yum install epel-release -y -q
+# Fix Failed to download metadata for repo https://techglimpse.com/failed-metadata-repo-appstream-centos-8/
+echo "[COMMON TASK 0.1] Change mirrorlist"
+
+# NOTE: Update Docs
+sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+sleep 10  # like a flash should keep it updated!
+
+echo "[COMMON TASK 0.2] Update app stream"
+yum update -y >/dev/null 2>&1
+
+echo "[COMMON TASK 0.2] Install epel-release"
+yum config-manager --set-enabled powertools
+yum install epel-release -y -q >/dev/null 2>&1
 
 echo "[COMMON TASK 1] Disable and turn off SWAP"
 sed -i '/swap/d' /etc/fstab
@@ -29,9 +42,8 @@ EOF
 sysctl --system >/dev/null 2>&1
 
 echo "[COMMON TASK 5] Install containerd runtime"
-yum install -y -q yum-utils wget iproute-tc
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >/dev/null 2>&1
-yum install -y -q containerd.io
+yum install -y -q containerd.io yum-utils wget iproute-tc gcc make
 mkdir -p /etc/containerd
 containerd config default | tee /etc/containerd/config.toml
 
