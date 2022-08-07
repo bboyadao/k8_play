@@ -1,3 +1,47 @@
+#### 1:install nfs: 
+
+```shell
+helm install nfs \
+   nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner \
+   --values ./storage/nfs_provi/values.yaml \
+   --v=9
+```
+####2: Install Postgres-ha
+```shell
+helm install postgresql bitnami/postgresql-ha -f postgresql/values.yaml
+```
+
+---
+
+####3: Intall Ingress/controler
+```shell
+helm install ingress ingress-nginx/ingress-nginx \
+  --version 4.0.16 \
+  --values ingress/values.yaml \
+  --v=9
+  
+kaf ingress/controller.yaml
+```
+####3: Intall :Loadbalance metallb
+```shell
+helm install metallb metallb/metallb -f metallb/values.yaml
+```
+####4: Install Rabbitmq-operator
+```shell
+helm install rabbitmq-operator \
+      bitnami/rabbitmq-cluster-operator \
+      --values rabbitmq-operator/values.yaml
+```
+####5: Install Rabbitmq
+```shell
+helm install rabbitmq bitnami/rabbitmq  --values rabbitmq/values.yaml
+```
+####6: Install API
+```shell
+helm install api ./api -f api/values.yaml
+```
+---
+##Play around 
 ```
 helm install nfs nfs-ganesha-server-and-external-provisioner/nfs-server-provisioner \
   --values ./storage/nfs_provi/values.yaml \
@@ -10,9 +54,6 @@ helm install ingress ingress-nginx/ingress-nginx \
 
 kaf ingress/controller.yaml
 
-kaf app/k8s
-
-cd metallb
 helm install metallb metallb/metallb -f values.yaml
 
 helm install postgresql bitnami/postgresql-ha\
@@ -20,8 +61,6 @@ helm install postgresql bitnami/postgresql-ha\
         --set postgresql.pgHbaTrustAll=true\
         --set volumePermissions.enabled=true\
         --set postgresqlImage.debug=true\
-        --set postgresql.password=admin123\
-        --set postgresql.repmgrPassword=admin123\
         --set postgresql.replicaCount=4\
         --set persistence.enabled=true\
         --set persistence.storageClass=standard\

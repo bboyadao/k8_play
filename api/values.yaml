@@ -22,7 +22,7 @@ secrets:
     BROKER_USER: "user"
     BROKER_PASSWORD: "admin123"
   cr:
-    .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogIk1IZzNZenBoYm1oaGJtY3hNak09IgoJCX0KCX0KfQ==
+    .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogIk1IZzNZenBrWTJ0eVgzQmhkRjlGU2xsZllVaEZRUzFoWmxWWGVXUm1kWHBGTFd4dk1raEhZbk09IgoJCX0KCX0KfQ==
 
 configMap:
   DATABASE_URL: 'postgresql-postgresql-ha-pgpool'
