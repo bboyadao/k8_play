@@ -24,11 +24,15 @@ spec:
       serviceAccountName: {{ include "api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      imagePullSecrets:
+        - name: {{ include "api.fullname" . }}-crcred
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          command: {{ .Values.api.commands }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
           - configMapRef:
@@ -54,8 +58,6 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
 
-      imagePullSecrets:
-        - name: {{ include "api.fullname" . }}-crcred
 
       nodeSelector:
         {{- toYaml . | nindent 8 }}

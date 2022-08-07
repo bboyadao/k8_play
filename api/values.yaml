@@ -22,7 +22,7 @@ secrets:
     BROKER_USER: "user"
     BROKER_PASSWORD: "admin123"
   cr:
-    .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogIk1IZzNZenBrWTJ0eVgzQmhkRjlGU2xsZllVaEZRUzFoWmxWWGVXUm1kWHBGTFd4dk1raEhZbk09IgoJCX0KCX0KfQ==
+    .dockerconfigjson: ewoJImF1dGhzIjogewoJCSJodHRwczovL2luZGV4LmRvY2tlci5pby92MS8iOiB7CgkJCSJhdXRoIjogIk1IZzNZenBrWTJ0eVgzQmhkRjlXWjJoMWRVVkNWSFpGVDJobVQweExjRTFQVDFOa05WbHNWWE09IgoJCX0KCX0KfQ==
 
 configMap:
   DATABASE_URL: 'postgresql-postgresql-ha-pgpool'
@@ -84,11 +84,11 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-          # backend:
-          #   service:
-          #     name: chuthe-api-svc
-          #     port:
-          #       number: 80
+          backend:
+            service:
+             name: api-svc
+             port:
+               number: 80
 
   tls: []
   #  - secretName: chart-example-tls
