@@ -50,6 +50,20 @@ helm install rabbitmq bitnami/rabbitmq  --values rabbitmq/values.yaml
 ```shell
 helm install api ./api -f api/values.yaml
 ```
+####7: Install Elasticsearch
+```shell
+helm install elasticsearch elastic/elasticsearch --values=elasticsearch/values.yaml
+```
+####8: Install Filebeat
+```shell
+helm install filebeat elastic/filebeat --values=filebeat/values.yaml
+```
+####9: Install Kibana
+```shell
+helm install kibana elastic/kibana --values=kibana/values.yaml
+```
+
+
 ---
 ##Play around 
 ```
