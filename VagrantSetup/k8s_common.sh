@@ -43,9 +43,9 @@ sysctl --system >/dev/null 2>&1
 
 echo "[COMMON TASK 5] Install containerd runtime"
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >/dev/null 2>&1
-yum install -y -q containerd.io yum-utils wget iproute-tc gcc make
-mkdir -p /etc/containerd
-containerd config default | tee /etc/containerd/config.toml
+yum install -y -q containerd.io yum-utils wget iproute-tc gcc make >/dev/null 2>&1
+mkdir -p /etc/containerd >/dev/null 2>&1
+containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
 
 echo "[COMMON TASK 4] Enable containerd"
 cat >>/etc/modules-load.d/containerd.conf<<EOF
@@ -81,22 +81,32 @@ if [ "$HOSTNAME" = master ]; then
     printf '%s\n' "on the right host"
 else
     printf '%s\n' "uh-oh, not on foo"
+
     mkdir -p /mnt/pv0
-    mkdir -p /mnt/pv1
-    mkdir -p /mnt/pv2
-    mkdir -p /mnt/pv3
-    mkdir -p /mnt/rabbitmq
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv0 /mnt/pv0
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv1 /mnt/pv1
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv2 /mnt/pv2
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv3 /mnt/pv3
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/rabbitmq /mnt/rabbitmq
     sudo umount /mnt/pv0
+
+    mkdir -p /mnt/pv1
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv1 /mnt/pv1
     sudo umount /mnt/pv1
+
+    mkdir -p /mnt/pv2
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv2 /mnt/pv2
     sudo umount /mnt/pv2
+
+    mkdir -p /mnt/pv3
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/pv3 /mnt/pv3
     sudo umount /mnt/pv3
+
+    mkdir -p /mnt/rabbitmq
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/rabbitmq /mnt/rabbitmq
     sudo umount /mnt/rabbitmq
+
+    mkdir -p /mnt/elasticsearch
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch /mnt/elasticsearch
+    sudo umount /mnt/elasticsearch
 fi
+
 echo "[COMMON TASK 8] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
