@@ -78,3 +78,51 @@ spec:
     server: 192.168.1.5
     path: "/srv/nfs/pv3"
 ---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/k8s_play"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch1
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/k8s_play"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch2
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/k8s_play"
+---
