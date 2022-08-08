@@ -1,4 +1,14 @@
 #### 1:install nfs: 
+ 
+```shell
+JUST IN NFS SERVER:
+sudo mkdir /srv/nfs/<name> -p 
+sudo chown nobody:/srv/nfs/<name>
+sudo sh -c 'echo "/srv/nfs/<name>  *(rw,sync,no_subtree_check,no_root_squash,no_all_squash,insecure)" >> /etc/exports'
+sudo systemctl enable --now nfs-server
+sudo exportfs -rav
+sudo showmount -e localhost
+```
 
 ```shell
 helm install nfs \
