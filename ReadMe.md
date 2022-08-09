@@ -52,7 +52,7 @@ helm install api ./api -f api/values.yaml
 ```
 ####7: Install Elasticsearch
 ```shell
-helm install elasticsearch elastic/elasticsearch --values=elasticsearch/values.yaml
+helm install elasticsearch bitnami/elasticsearch --values=elasticsearch/values.yaml
 ```
 ####8: Install Filebeat
 ```shell
