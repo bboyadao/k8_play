@@ -1,3 +1,4 @@
+#!/bin/bash
 cd /vagrant/open_sources/
 tar -xvf sshpass-1.08.tar.gz >/dev/null 2>&1
 cd sshpass-1.08
