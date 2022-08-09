@@ -28,13 +28,50 @@ reclaimPolicy: Delete
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: elasticsearch
+  name: elasticsearch-admin
 provisioner: example.com/external-nfs
 parameters:
   archiveOnDelete: "false"
   server: 192.168.1.5
-  path: /srv/nfs/k8s_play
+  path: /srv/nfs/elasticsearch
   readOnly: "false"
 allowVolumeExpansion: true
 reclaimPolicy: Delete
 
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: elasticsearch-data
+provisioner: example.com/external-nfs
+parameters:
+  archiveOnDelete: "false"
+  server: 192.168.1.5
+  path: /srv/nfs/elasticsearch
+  readOnly: "false"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: elasticsearch-kibana
+provisioner: example.com/external-nfs
+parameters:
+  archiveOnDelete: "false"
+  server: 192.168.1.5
+  path: /srv/nfs/elasticsearch
+  readOnly: "false"
+allowVolumeExpansion: true
+reclaimPolicy: Delete
+
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Delete

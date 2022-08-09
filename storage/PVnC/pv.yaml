@@ -78,51 +78,108 @@ spec:
     server: 192.168.1.5
     path: "/srv/nfs/pv3"
 ---
+
+
+
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: elasticsearch
+  name: elasticsearch-data0
   labels:
     type: local
 spec:
-  storageClassName: elasticsearch
+  storageClassName: elasticsearch-data
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   nfs:
     server: 192.168.1.5
-    path: "/srv/nfs/k8s_play"
+    path: "/srv/nfs/elasticsearch"
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  -
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: elasticsearch1
+  name: elasticsearch-data1
   labels:
     type: local
 spec:
-  storageClassName: elasticsearch
+  storageClassName: elasticsearch-data
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   nfs:
     server: 192.168.1.5
-    path: "/srv/nfs/k8s_play"
+    path: "/srv/nfs/elasticsearch"
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-admin0
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch-admin
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/elasticsearch"
 ---
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: elasticsearch2
+  name: elasticsearch-admin1
   labels:
     type: local
 spec:
-  storageClassName: elasticsearch
+  storageClassName: elasticsearch-admin
   capacity:
-    storage: 1Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   nfs:
     server: 192.168.1.5
-    path: "/srv/nfs/k8s_play"
+    path: "/srv/nfs/elasticsearch"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-admin2
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch-admin
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/elasticsearch"
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-kibana
+  labels:
+    type: local
+spec:
+  storageClassName: elasticsearch-kibana
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    server: 192.168.1.5
+    path: "/srv/nfs/elasticsearch"
 ---

@@ -80,12 +80,8 @@ echo "Environment=\"KUBELET_EXTRA_ARGS=--node-ip=$DROPLET_IP_ADDRESS\"" >> /usr/
 
 echo "[COMMON TASK 12] Install Mount NFS"
 
-if [ "$HOSTNAME" = master ]; then
-    printf '%s\n' "on the right host"
-else
-    printf '%s\n' "uh-oh, not on foo"
-
-    mkdir -p /mnt/pv0
+if [ "$HOSTNAME" = database ]; then
+     mkdir -p /mnt/pv0
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv0 /mnt/pv0
     sudo umount /mnt/pv0
 
@@ -101,13 +97,35 @@ else
     sudo mount -t nfs 192.168.1.5:/srv/nfs/pv3 /mnt/pv3
     sudo umount /mnt/pv3
 
+elif [ "$HOSTNAME" = elasticsearch ]; then
+    mkdir -p /mnt/elasticsearch/admin0
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch/admin0 /mnt/elasticsearch/admin0
+    sudo umount /mnt/elasticsearch/admin0
+
+    mkdir -p /mnt/elasticsearch/admin1
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch/admin1 /mnt/elasticsearch/admin1
+    sudo umount /mnt/elasticsearch/admin1
+
+    mkdir -p /mnt/elasticsearch/admin2
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch/admin2 /mnt/elasticsearch/admin2
+    sudo umount /mnt/elasticsearch/admin2
+
+    mkdir -p /mnt/elasticsearch/data0
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch/data0 /mnt/elasticsearch/data0
+    sudo umount /mnt/elasticsearch/data0
+
+    mkdir -p /mnt/elasticsearch/data1
+    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch/data1 /mnt/elasticsearch/data1
+    sudo umount /mnt/elasticsearch/data1
+
+elif [ "$HOSTNAME" = mq ]; then
     mkdir -p /mnt/rabbitmq
     sudo mount -t nfs 192.168.1.5:/srv/nfs/rabbitmq /mnt/rabbitmq
     sudo umount /mnt/rabbitmq
 
-    mkdir -p /mnt/elasticsearch
-    sudo mount -t nfs 192.168.1.5:/srv/nfs/elasticsearch /mnt/elasticsearch
-    sudo umount /mnt/elasticsearch
+else
+    printf '%s\n' "uh-oh, not on foo"
+
 fi
 
 echo "[COMMON TASK 13] Enable ssh password authentication"
