@@ -5,4 +5,4 @@ BEGIN{ tog=0; }
 /^$/{ tog=!tog; }
 /./ { if(tog){print $1} }
 ' | \
-xargs -P20 -I {} vagrant destroy -f {}
+xargs -P30 -I {} vagrant destroy -f {}
