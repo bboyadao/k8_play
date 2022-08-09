@@ -5,7 +5,7 @@ echo "[COMMON TASK 0] ADD EPEL"
 # Centos through VM - no URLs in mirrorlist
 # https://stackoverflow.com/questions/70926799/centos-through-vm-no-urls-in-mirrorlist
 # Fix Failed to download metadata for repo https://techglimpse.com/failed-metadata-repo-appstream-centos-8/
-echo "[COMMON TASK 0.1] Change mirrorlist"
+echo "[COMMON TASK 1] Change mirrorlist"
 
 # NOTE: Update Docs
 sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
@@ -13,27 +13,27 @@ sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /
 
 sleep 10  # like a flash should keep it updated!
 
-echo "[COMMON TASK 0.2] Update app stream"
+echo "[COMMON TASK 2] Update app stream"
 yum update -y >/dev/null 2>&1
 
-echo "[COMMON TASK 0.2] Install epel-release"
+echo "[COMMON TASK 3] Install epel-release"
 yum config-manager --set-enabled powertools
 yum install epel-release -y -q >/dev/null 2>&1
 
-echo "[COMMON TASK 1] Disable and turn off SWAP"
+echo "[COMMON TASK 4] Disable and turn off SWAP"
 sed -i '/swap/d' /etc/fstab
 swapoff -a
 
-echo "[COMMON TASK 2] Stop and Disable firewall"
+echo "[COMMON TASK 5] Stop and Disable firewall"
 systemctl disable --now ufw >/dev/null 2>&1
 systemctl disable firewalld; systemctl stop firewalld
 
 # Disable SELinux
-echo "[COMMON TASK 3] Disable SELinux"
+echo "[COMMON TASK 6] Disable SELinux"
 setenforce 0
 sed -i --follow-symlinks 's/^SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
 
-echo "[COMMON TASK 5] Add Kernel settings"
+echo "[COMMON TASK 7] Add Kernel settings"
 cat >>/etc/sysctl.d/kubernetes.conf<<EOF
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables  = 1
@@ -41,13 +41,13 @@ net.ipv4.ip_forward                 = 1
 EOF
 sysctl --system >/dev/null 2>&1
 
-echo "[COMMON TASK 5] Install containerd runtime"
+echo "[COMMON TASK 8] Install containerd runtime"
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo >/dev/null 2>&1
 yum install -y -q containerd.io yum-utils wget iproute-tc gcc make >/dev/null 2>&1
 mkdir -p /etc/containerd >/dev/null 2>&1
 containerd config default | tee /etc/containerd/config.toml >/dev/null 2>&1
 
-echo "[COMMON TASK 4] Enable containerd"
+echo "[COMMON TASK 9] Enable containerd"
 cat >>/etc/modules-load.d/containerd.conf<<EOF
 overlay
 br_netfilter
@@ -59,7 +59,7 @@ modprobe br_netfilter
 systemctl restart containerd >/dev/null 2>&1
 systemctl enable containerd >/dev/null 2>&1
 
-echo "[COMMON TASK 6] Add Registry repo for kubernetes"
+echo "[COMMON TASK 10] Add Registry repo for kubernetes"
 cat >>/etc/yum.repos.d/kubernetes.repo<<EOF
 [kubernetes]
 name=Kubernetes
@@ -71,11 +71,14 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
         https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 
-echo "[COMMON TASK 7] Install Kubernetes components (kubeadm, kubelet and kubectl)"
+echo "[COMMON TASK 11] Install Kubernetes components (kubeadm, kubelet and kubectl)"
 yum install -qq -y kubeadm kubelet kubectl >/dev/null 2>&1
 systemctl enable kubelet.service --now
 DROPLET_IP_ADDRESS=$(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
 echo "Environment=\"KUBELET_EXTRA_ARGS=--node-ip=$DROPLET_IP_ADDRESS\"" >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+
+echo "[COMMON TASK 12] Install Mount NFS"
 
 if [ "$HOSTNAME" = master ]; then
     printf '%s\n' "on the right host"
@@ -107,16 +110,16 @@ else
     sudo umount /mnt/elasticsearch
 fi
 
-echo "[COMMON TASK 8] Enable ssh password authentication"
+echo "[COMMON TASK 13] Enable ssh password authentication"
 sed -i 's/^PasswordAuthentication .*/PasswordAuthentication yes/' /etc/ssh/sshd_config
 echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
 
-echo "[COMMON TASK 9] Set root password"
+echo "[COMMON TASK 14] Set root password"
 echo -e "admin123\nadmin123" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
-echo "[COMMON TASK 10] Update /etc/hosts file"
+echo "[COMMON TASK 15] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
 192.168.1.100  master.example.com     master
 
